@@ -8,8 +8,8 @@ with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
 VERSION = '0.1'
-DESCRIPTION = 'Command line tool for dnres package.'
-LONG_DESCRIPTION = 'A package that provides a command line tool to be used along with dnres python package.'
+DESCRIPTION = 'Command line interface for dnres package.'
+LONG_DESCRIPTION = 'A package that provides a command line interface to be used along with dnres python package.'
 
 # Setting up
 setup(
