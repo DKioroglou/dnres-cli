@@ -14,7 +14,7 @@ The above command performs the following:
 
 * Checks for errors in `config.ini` 
 * Builds structure and database if they don't exist. 
-* Prints stored pyhton objects and files.
+* Prints stored python objects and files.
 
 ## Print contents of stored data
 
