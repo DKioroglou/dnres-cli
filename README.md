@@ -18,7 +18,7 @@ The above command performs the following:
 
 ## Print contents of stored data
 
-```
+```console
 $ dkres config.ini cat --help 
 ```
 
@@ -60,7 +60,13 @@ The following `dnres` methods are exposed as cli commands:
 
 Information on these commands/methods can be found [here](https://dnres.readthedocs.io/en/latest/source/dnres.html).  
 To get help on these commands run:  
+
 ```console
 $ dnres config.ini COMMAND --help
 ```
 
+## Installation
+
+```
+pip install dnres-cli
+```
