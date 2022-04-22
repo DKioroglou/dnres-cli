@@ -18,7 +18,7 @@ The above command performs the following:
 
 ## Print contents of stored data
 
-```console
+```bash
 $ '\[$(tput setaf 71)\]dnres\[$(tput sgr0)\]' config.ini cat --help 
 ```
 
