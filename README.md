@@ -18,8 +18,8 @@ The above command performs the following:
 
 ## Print contents of stored data
 
-```bash
-$ '\[$(tput setaf 71)\]dnres\[$(tput sgr0)\]' config.ini cat --help 
+```console
+$ dnres config.ini cat --help 
 ```
 
 For files, the following filetypes are supported for printing:  
