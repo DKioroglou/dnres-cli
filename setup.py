@@ -25,7 +25,7 @@ setup(
     long_description_content_type="text/markdown",
     long_description=long_description,
     packages=find_packages(),
-    install_requires=['dnres', 'click'],
+    install_requires=['dnres', 'click', 'pandas'],
     include_package_data=True,
     keywords=['python', 'data analysis', 'bioinformatics', 'reporting', 'analysis results'],
     classifiers=[
