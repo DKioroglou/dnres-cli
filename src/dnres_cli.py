@@ -41,6 +41,86 @@ def info(res, directory, filename):
 @click.option('--directory', '-d', required=True, help='Name of directory.')
 @click.option('--filename', '-f', required=True, help='Filename in directory.')
 @click.pass_obj
+def delete(res, directory, filename):
+    """
+    \b
+    Deletes stored object. 
+    """
+
+    res.delete(directory, filename)
+
+
+@dnres.command()
+@click.option('--filename', '-f', required=True, help='Filename to move.')
+@click.option('--source', '-s', required=True, help='Directory in structure where data are stored.')
+@click.option('--destination', '-d', required=True, help='Directory in structure where data will be moved to.')
+@click.option('--overwrite', is_flag=True, help='Flag for overwriting previously stored data under same filename.')
+@click.pass_obj
+def move(res, filename, source, destination, overwrite):
+    """
+    \b
+    Moves stored objects from source to destination.
+    If overwrite, stored objects with same name will be overwriten in destination.
+    """
+
+    res.move(filename=filename,
+             source=source,
+             destination=destination,
+             overwrite=overwrite)
+
+
+@dnres.command()
+@click.option('--directory', '-d', required=True, help='Directory where stored object is.')
+@click.option('--previous', '-p', required=True, help='Previous filename of stored object.')
+@click.option('--new', '-n', required=True, help='New filename of stored object.')
+@click.pass_obj
+def rename(res, directory, previous, new):
+    """
+    \b
+    Renames stored object from previous filename to new filename.
+    """
+
+    res.rename(directory=directory,
+               previous=previous,
+               new=new)
+
+
+@dnres.command()
+@click.option('--description', '-i', required=True, help='Description to set for stored object.')
+@click.option('--directory', '-d', required=True, help='Directory where stored object is.')
+@click.option('--filename', '-f', required=True, help='Filename of the stored object.')
+@click.pass_obj
+def set_description(res, description, directory, filename):
+    """
+    \b
+    Sets description for stored object.
+    """
+
+    res.set_description(description=description,
+                        directory=directory,
+                        filename=filename)
+
+
+@dnres.command()
+@click.option('--source', '-s', required=True, help='Source information to set for stored object.')
+@click.option('--directory', '-d', required=True, help='Directory where stored object is.')
+@click.option('--filename', '-f', required=True, help='Filename of the stored object.')
+@click.pass_obj
+def set_source(res, source, directory, filename):
+    """
+    \b
+    Sets source information for stored object.
+    """
+
+    res.set_source(source=source,
+                   directory=directory,
+                   filename=filename)
+
+
+@dnres.command()
+@click.option('--directory', '-d', required=True, help='Name of directory.')
+@click.option('--filename', '-f', required=True, help='Filename in directory.')
+@click.pass_obj
 def ls(res, directory, filename):
     """
     \b
