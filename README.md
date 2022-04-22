@@ -6,7 +6,7 @@ Command line utility to be used along with [dnres](https://github.com/DKioroglou
 
 ## Parse config
 
-```bash
+```console
 $ dnres config.ini
 ```
 
@@ -41,7 +41,7 @@ If filetype or class is not supported, the filepath of the stored data gets prin
 
 ## Print filepath of stored data
 
-```
+```console
 $ dnres config.ini ls --help
 ```
 
@@ -60,7 +60,7 @@ The following `dnres` methods are exposed as cli commands:
 
 Information on these commands/methods can be found [here](https://dnres.readthedocs.io/en/latest/source/dnres.html).  
 To get help on these commands run:  
-```bash
+```console
 $ dnres config.ini COMMAND --help
 ```
 
