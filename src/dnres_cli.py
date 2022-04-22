@@ -16,6 +16,7 @@ def dnres(ctx, config):
 
     res = DnRes(config)
     ctx.obj = res
+
     if ctx.invoked_subcommand is None:
         print(res)
 
@@ -166,6 +167,7 @@ def cat(res, directory, filename, backend, delimiter, sheet):
     """
     \b
     It prints the contents of the stored object or file. 
+    Prints filepath if stored data are not supported for printing.
     """
 
     # Identify object is serialized
@@ -189,9 +191,7 @@ def cat(res, directory, filename, backend, delimiter, sheet):
             print(data)
 
         else:
-            valid_instances = ['list', 'tuple', 'str', 'dict', 'str']
-            print('Object is not an instance of:')
-            print('\n'.join(valid_instances))
+            print(os.path.join(res.structure[directory], filename))
 
     else:
         filepath = res.load(directory, filename)
