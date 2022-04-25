@@ -1,8 +1,12 @@
 import click
+import contextlib
 from dnres import DnRes
 import configparser
 import os
 import pandas as pd
+import subprocess
+import sqlite3
+from flask import Flask, render_template
 
 
 @click.group(invoke_without_command=True)
@@ -235,6 +239,29 @@ def cat(res, directory, filename, backend, delimiter, sheet):
 
         else:
             print(filepath)
+
+
+@dnres.command()
+@click.pass_obj
+def webapp(res):
+    """
+    \b
+    Starts a Flask server to view data and results."""
+    app = Flask(__name__)
+
+    @app.route('/')
+    def index():
+        data = dict()
+        with contextlib.closing(sqlite3.connect(res.db)) as conn:
+            with contextlib.closing(conn.cursor()) as c:
+                for directory in res.structure.keys():
+                    query = f"SELECT * FROM {directory}"
+                    c.execute(query)
+                    results = c.fetchall()
+                    data[directory] = results
+        return render_template('index.html', data=data)
+
+    app.run(debug=True)
 
 
 if __name__ == "__main__":
