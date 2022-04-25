@@ -70,3 +70,7 @@ $ dnres config.ini COMMAND --help
 ```
 pip install dnres-cli
 ```
+
+## License
+
+BSD 3
