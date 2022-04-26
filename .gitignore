@@ -49,7 +49,7 @@ Thumbs.db
 *.wmv
 
 # Data generated for unit testing
-testsing/
+testing/
 
 # Files generated from pip install -e dnres
 *.egg-info/
