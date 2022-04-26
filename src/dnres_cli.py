@@ -6,7 +6,7 @@ import os
 import pandas as pd
 import subprocess
 import sqlite3
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
 
 
 @click.group(invoke_without_command=True)
@@ -259,7 +259,11 @@ def webapp(res):
                     c.execute(query)
                     results = c.fetchall()
                     data[directory] = results
-        return render_template('index.html', data=data)
+        return render_template('index.html', description=res.description, data=data)
+
+    @app.route('/<directory>/<path:filename>')
+    def serve_file(directory, filename):
+        return send_from_directory(res.structure[directory], filename)
 
     app.run(debug=True)
 
