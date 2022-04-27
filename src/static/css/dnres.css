@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap');
+
+body {
+  overflow-x: hidden;
+  font-family: 'Roboto', sans-serif !important;
+  background-color: #daf1ff !important;
+}
+
+a {
+  color: #b53710;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #c7a79d;
+}
+
+.card {
+  background-color: #e9f2f9;
+}
+
