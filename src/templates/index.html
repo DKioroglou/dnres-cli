@@ -18,7 +18,7 @@
             <b>Description:</b> {{description}} 
             <br><br>
             {% for directory, results in data.items() %}
-                <div class="card">
+                <div class="card border-0">
                       <h5 class="card-header bg-info text-white">
                         {{directory}}
                         <a class="btn btn-secondary" data-bs-toggle="collapse" href="#collapse{{directory}}" role="button" aria-expanded="false" aria-controls="collapse{{directory}}">
@@ -26,7 +26,7 @@
                          </a>
                       </h5>
                       <div class="collapse" id="collapse{{directory}}">
-                          <div class="card-body border-0">
+                          <div class="card-body">
                             <table class="table table-striped">
                               <thead>
                                 <tr>
@@ -42,7 +42,11 @@
                                         <tr>
                                           {% for field in result %}
                                               {% if field|int == 0 %} 
-                                                  {% if field.endswith('.png') or  field.endswith('.jpg') or field.endswith('.jpeg') or field.endswith('.svg') %}
+                                                  {% if field.endswith('.png') or 
+                                                        field.endswith('.jpg') or 
+                                                        field.endswith('.jpeg') or 
+                                                        field.endswith('.svg') or 
+                                                        field.endswith('.pdf') %}
                                                       <td>
                                                           <a href="{{url_for('serve_file', directory=directory, filename=field)}}">
                                                               {{field}}
