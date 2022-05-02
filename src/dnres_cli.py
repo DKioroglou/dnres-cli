@@ -265,7 +265,7 @@ def webapp(res):
     def serve_file(directory, filename):
         return send_from_directory(res.structure[directory], filename)
 
-    app.run(debug=True)
+    app.run(debug=True, port=7000)
 
 
 if __name__ == "__main__":
