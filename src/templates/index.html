@@ -24,10 +24,10 @@
             {% for directory, results in data.items() %}
                 <div class="card border-0">
                       <h5 class="card-header bg-info text-white">
-                        {{directory}}
                         <a class="btn btn-sm btn-warning" data-bs-toggle="collapse" href="#collapse{{directory}}" role="button" aria-expanded="false" aria-controls="collapse{{directory}}">
                             View
                          </a>
+                        {{directory}}
                       </h5>
                       <div class="collapse" id="collapse{{directory}}">
                           <div class="card-body">
