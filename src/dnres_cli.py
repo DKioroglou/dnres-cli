@@ -1,5 +1,6 @@
 import click
 import contextlib
+from datetime import datetime
 from dnres import DnRes
 import configparser
 import os
@@ -157,6 +158,28 @@ def store(res, data, directory, filename, description, source, overwrite):
               description=description,
               isfile=True,
               overwrite=overwrite)
+
+
+@dnres.command()
+@click.option('--directory', '-d', required=True, help='Name of directory in db to store to.')
+@click.option('--filename', '-f', required=True, help='How the registered directory will be referenced in the db.')
+@click.option('--description', '-i', required=False, help='Brief description about the directory.')
+@click.option('--source', '-s', required=False, help='Where directory came from.')
+@click.pass_obj
+def insert_dir_to_db(res, directory, filename, description, source):
+    """
+    \b
+    Register whole directory that holds data to database.
+    """
+
+    date = int(datetime.today().strftime('%Y%m%d'))
+    datatype = 'dir'
+    res._insert_in_db(directory, 
+                       date,
+                       filename,
+                       datatype,
+                       description,
+                       source)
 
 
 @dnres.command()
