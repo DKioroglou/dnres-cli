@@ -108,6 +108,22 @@ def set_description(res, description, directory, filename):
 
 
 @dnres.command()
+@click.option('--datatype', '-i', required=True, help='Datatype to set for stored object.')
+@click.option('--directory', '-d', required=True, help='Directory where stored object is.')
+@click.option('--filename', '-f', required=True, help='Filename of the stored object.')
+@click.pass_obj
+def set_datatype(res, datatype, directory, filename):
+    """
+    \b
+    Sets datatype for stored object.
+    """
+
+    res.set_datatype(datatype=datatype,
+                    directory=directory,
+                    filename=filename)
+
+
+@dnres.command()
 @click.option('--source', '-s', required=True, help='Source information to set for stored object.')
 @click.option('--directory', '-d', required=True, help='Directory where stored object is.')
 @click.option('--filename', '-f', required=True, help='Filename of the stored object.')
