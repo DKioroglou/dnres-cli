@@ -5,6 +5,7 @@ from dnres import DnRes
 import configparser
 import os
 import pandas as pd
+from pyfzf.pyfzf import FzfPrompt
 import subprocess
 import sqlite3
 from flask import Flask, render_template, send_from_directory
@@ -278,6 +279,44 @@ def cat(res, directory, filename, backend, delimiter, sheet):
 
         else:
             print(filepath)
+
+
+
+@dnres.command()
+@click.option('--directory', '-d', required=True, help='Name of directory.')
+@click.option('--filename', '-f', required=True, help='Filename in directory.')
+@click.pass_obj
+def view(res, directory, filename):
+    """
+    \b
+    Use a user defined viewer to view the file.
+    """
+
+    # Identify object is serialized
+    if filename.endswith(".json") or filename.endswith(".pickle"):
+        serialization = True
+    else:
+        serialization = False
+   
+    if serialization:
+        raise Exception("File is serialized. Use 'cat' command.")
+    else:
+        filepath = res.load(directory, filename)
+
+        config = configparser.ConfigParser()
+        config.read(res.config_file)
+        if not config.has_section('VIEWER'):
+            raise KeyError("With 'view' command, VIEWER section is required in the config file.")
+        viewers = config['VIEWER'].keys()
+        fzf = FzfPrompt()
+        try:
+            choice = fzf.prompt(viewers, '--exact')
+        except Exception:
+            exit("Action cancelled.")
+        choice = choice[0]
+        command = config['VIEWER'][choice]
+        command = command.format(filepath)
+        subprocess.run(command, shell=True)
 
 
 @dnres.command()
