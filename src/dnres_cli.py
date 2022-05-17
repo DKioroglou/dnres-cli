@@ -234,6 +234,9 @@ def cat(res, directory, filename, backend, delimiter, sheet):
         if isinstance(data, str):
             print(data)
 
+        if isinstance(data, pd.core.frame.DataFrame):
+            print(data)
+
         else:
             print(os.path.join(res.structure[directory], filename))
 
