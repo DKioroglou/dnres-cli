@@ -8,6 +8,7 @@ import pandas as pd
 from pyfzf.pyfzf import FzfPrompt
 import subprocess
 import sqlite3
+import json
 from flask import Flask, render_template, send_from_directory
 
 
@@ -227,14 +228,13 @@ def cat(res, directory, filename, backend, delimiter, sheet):
             for item in data:
                 print(item)
 
-        if isinstance(data, dict):
-            for key, value in data.items():
-                print(f"{key}\t{value}")
+        elif isinstance(data, dict):
+            print(json.dumps(data))
 
-        if isinstance(data, str):
+        elif isinstance(data, str):
             print(data)
 
-        if isinstance(data, pd.core.frame.DataFrame):
+        elif isinstance(data, pd.core.frame.DataFrame):
             print(data)
 
         else:
