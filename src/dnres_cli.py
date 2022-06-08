@@ -63,18 +63,27 @@ def delete(res, directory, filename):
 @click.option('--source', '-s', required=True, help='Directory in structure where data are stored.')
 @click.option('--destination', '-d', required=True, help='Directory in structure where data will be moved to.')
 @click.option('--overwrite', is_flag=True, help='Flag for overwriting previously stored data under same filename.')
+@click.option('--db_only', is_flag=True, help='Flag for making changes only in database in case filename is reference to path.')
 @click.pass_obj
-def move(res, filename, source, destination, overwrite):
+def move(res, filename, source, destination, overwrite, db_only):
     """
     \b
     Moves stored objects from source to destination.
     If overwrite, stored objects with same name will be overwriten in destination.
     """
 
-    res.move(filename=filename,
-             source=source,
-             destination=destination,
-             overwrite=overwrite)
+    if db_only:
+        res.move(filename=filename,
+                 source=source,
+                 destination=destination,
+                 overwrite=overwrite,
+                 db_only=True)
+    else:
+        res.move(filename=filename,
+                 source=source,
+                 destination=destination,
+                 overwrite=overwrite,
+                 db_only=False)
 
 
 @dnres.command()
