@@ -244,7 +244,7 @@ def cat(res, directory, filename, backend, delimiter, sheet):
             print(data)
 
         elif isinstance(data, pd.core.frame.DataFrame):
-            print(data)
+            print(data.to_csv(index=False, sep='\t'))
 
         else:
             print(os.path.join(res.structure[directory], filename))
