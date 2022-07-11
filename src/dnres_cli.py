@@ -170,9 +170,10 @@ def ls(res, directory, filename):
 @click.option('--filename', '-f', required=True, help='Filename under which data will be stored.')
 @click.option('--description', '-i', required=False, help='Brief description about the data.')
 @click.option('--source', '-s', required=False, help='Where data came from.')
+@click.option('--register', is_flag=True, help='Flag in case you only want to register file path to database.')
 @click.option('--overwrite', is_flag=True, help='Flag for overwriting previously stored data under same filename.')
 @click.pass_obj
-def store(res, data, directory, filename, description, source, overwrite):
+def store(res, data, directory, filename, description, source, register, overwrite):
     """
     \b
     Stores data in structure and database.
@@ -183,6 +184,7 @@ def store(res, data, directory, filename, description, source, overwrite):
               filename=filename,
               source=source,
               description=description,
+              register=register,
               isfile=True,
               overwrite=overwrite)
 
