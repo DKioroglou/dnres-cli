@@ -125,7 +125,7 @@ def cat(res, path, backend, delimiter, sheet):
     _check_path_in_structure(res, path)
 
     # Identify object is serialized
-    if filename.endswith(".json") or filename.endswith(".pickle"):
+    if path.endswith(".json") or path.endswith(".pickle"):
         serialization = True
     else:
         serialization = False
