@@ -69,7 +69,7 @@ def remove_from_db(res, path):
 
 @dnres.command()
 @click.option('--tag', '-t', help='Tag to be removed.')
-@click.option('--path', '-p', help='Path to remove tag from.')
+@click.option('--path', '-p', required=False, help='Path to remove tag from.')
 @click.pass_obj
 def remove_tag(res, tag, path):
     """
@@ -78,6 +78,19 @@ def remove_tag(res, tag, path):
     """
 
     res.remove_tag(tag, path)
+
+
+@dnres.command()
+@click.option('--old', '-o', help='Existing name of tag.')
+@click.option('--new', '-n', help='New name of tag.')
+@click.pass_obj
+def remove_tag(res, old, new):
+    """
+    \b
+    Rename tag from old name to new name.
+    """
+
+    res.rename_tag(old, new)
 
 
 @dnres.command()
