@@ -52,7 +52,7 @@ def tag(res, path, tag, datatype, description, source):
     """
 
     _check_path_in_structure(res, path)
-    res.tag(tag, path, datatype, description, source)
+    res.tag(path, tag, datatype, description, source)
 
 
 @dnres.command()
