@@ -84,7 +84,7 @@ def remove_tag(res, tag, path):
 @click.option('--old', '-o', help='Existing name of tag.')
 @click.option('--new', '-n', help='New name of tag.')
 @click.pass_obj
-def remove_tag(res, old, new):
+def rename_tag(res, old, new):
     """
     \b
     Rename tag from old name to new name.
