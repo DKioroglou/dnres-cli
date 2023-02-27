@@ -7,7 +7,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-VERSION = '0.12'
+VERSION = '0.2.1'
 DESCRIPTION = 'Command line interface for dnres package.'
 LONG_DESCRIPTION = 'A package that provides a command line interface to be used along with dnres python package.'
 
