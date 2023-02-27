@@ -39,34 +39,20 @@ def info(res, path):
 
 
 @dnres.command()
-@click.option('--tag', '-t', help='Tag for path')
 @click.option('--path', '-p', help='Path to be tagged.')
-@click.pass_obj
-def tag(res, tag, path):
-    """
-    \b
-    Add tag to given path.
-    """
-
-    _check_path_in_structure(res, path)
-    res.tag(tag, path)
-
-
-@dnres.command()
-@click.option('--path', '-p', help='Path to set info.')
+@click.option('--tag', '-t', required=False, help='Tag for path')
 @click.option('--datatype', '-d', required=False, help='Datatype of path.')
 @click.option('--description', '-i', required=False, help='Short description about the data.')
 @click.option('--source', '-s', required=False, help='Source that generated the data.')
 @click.pass_obj
-def set_info(res, path, datatype, description, source):
+def tag(res, path, tag, datatype, description, source):
     """
     \b
-    For existing paths, it sets information for given path.
-    For new paths, it registers it to the database and sets the provided information. 
+    Add tag and/or info to given path.
     """
 
     _check_path_in_structure(res, path)
-    res.set_info(path, datatype, description, source)
+    res.tag(tag, path, datatype, description, source)
 
 
 @dnres.command()
