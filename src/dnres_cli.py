@@ -27,7 +27,7 @@ def dnres(ctx, config):
 
 
 @dnres.command()
-@click.option('--path', '-p', help='Path to show information about.')
+@click.argument('path')
 @click.pass_obj
 def info(res, path):
     """
@@ -56,7 +56,7 @@ def tag(res, path, tag, datatype, description, source):
 
 
 @dnres.command()
-@click.option('--path', '-p', help='Path to be removed.')
+@click.argument('path')
 @click.pass_obj
 def remove_from_db(res, path):
     """
@@ -68,13 +68,13 @@ def remove_from_db(res, path):
 
 
 @dnres.command()
-@click.option('--tag', '-t', help='Tag to be removed.')
 @click.option('--path', '-p', required=False, help='Path to remove tag from.')
+@click.argument('tag')
 @click.pass_obj
 def remove_tag(res, tag, path):
     """
     \b
-    Removes tag from given path.
+    Removes tag from given path. If not path is provided, tag is removed from all paths.
     """
 
     res.remove_tag(tag, path)
@@ -94,7 +94,7 @@ def rename_tag(res, old, new):
 
 
 @dnres.command()
-@click.option('--path', '-p', help='Path to show absolute path.')
+@click.argument('path')
 @click.pass_obj
 def ls(res, path):
     """
@@ -108,11 +108,11 @@ def ls(res, path):
 
 
 @dnres.command()
-@click.option('--path', '-p', help='Path to show data from.')
 @click.option('--backend', '-b', required=True, type=click.Choice(['pandas', 'none']), 
               default='none', show_default=True, help="Backend to use in order to load and print objects or files.")
 @click.option('--delimiter', required=False, type=click.Choice(['tab', 'comma']), help="Delimiter for csv or tsv files.")
 @click.option('--sheet', type=int, required=False, help="Sheet number for excel files.")
+@click.argument('path')
 @click.pass_obj
 def cat(res, path, backend, delimiter, sheet):
     """
