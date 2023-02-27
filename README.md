@@ -45,7 +45,6 @@ The following `dnres` methods are exposed as cli commands:
 
 * `info`
 * `tag`
-* `set-info`
 * `remove-from-db`
 * `remove-tag`
 
