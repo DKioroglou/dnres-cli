@@ -10,13 +10,7 @@ Command line utility to be used along with [dnres](https://github.com/DKioroglou
 $ dnres config.ini
 ```
 
-The above command performs the following:
-
-* Checks for errors in `config.ini` 
-* Builds structure and database if they don't exist. 
-* Prints stored python objects and files.
-
-## Print contents of stored data
+## Print contents of stored/tagged data
 
 ```console
 $ dnres config.ini cat --help 
@@ -39,7 +33,7 @@ For python objects, the following classes are supported:
 
 If filetype or class is not supported, the filepath of the stored data gets printed.
 
-## Print filepath of stored data
+## Print absolute filepath of stored/tagged data
 
 ```console
 $ dnres config.ini ls --help
@@ -49,14 +43,11 @@ $ dnres config.ini ls --help
 
 The following `dnres` methods are exposed as cli commands: 
 
-* `delete`
 * `info`
-* `ls`
-* `move`
-* `rename`
-* `set-description`
-* `set-source`
-* `store`
+* `tag`
+* `set-info`
+* `remove-from-db`
+* `remove-tag`
 
 Information on these commands/methods can be found [here](https://dnres.readthedocs.io/en/latest/source/dnres.html).  
 To get help on these commands run:  
