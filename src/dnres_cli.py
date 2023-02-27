@@ -122,7 +122,7 @@ def cat(res, path, backend, delimiter, sheet):
     Prints filepath if stored data are not supported for printing.
     """
 
-    _check_path_in_structure(path)
+    _check_path_in_structure(res, path)
 
     # Identify object is serialized
     if filename.endswith(".json") or filename.endswith(".pickle"):
