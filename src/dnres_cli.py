@@ -3,6 +3,200 @@ from dnres import DnRes
 import os
 import pandas as pd
 import json
+import contextlib
+import sqlite3
+from flask import Flask
+from multiprocessing import Process
+
+
+def htmlRenderer(projectDB, projectDescription):
+        htmlUpper = """
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;400&display=swap" rel="stylesheet">
+                <style>
+                    body {
+                      background-color: #212F3C;
+                      font-family: 'JetBrains Mono', monospace;
+                      font-size: 14px;
+                      color: #fff;
+                    }
+                    button {
+                      font-family: 'JetBrains Mono', monospace;
+                      font-size: 14px;
+                    }
+                    p {
+                      font-size: 14px;
+                    }
+
+                    h3 {
+
+                      color:#B16824
+                    }
+
+                    .collapsible {
+                      cursor: pointer;
+                      padding: 6px;
+                      width: 100%;
+                      border: none;
+                      text-align: left;
+                      outline: none;
+                      font-family: 'JetBrains Mono', monospace;
+                      font-size: 14px;
+                    }
+
+                    .active, .collapsible:hover {
+                      background-color: #555;
+                    }
+
+                    .content {
+                      height: inherit;
+                      padding: 10px;
+                      display: none;
+                      background-color: #f1f1f1;
+                      color: #555;
+                      font-family: 'JetBrains Mono', monospace;
+                      word-wrap: break-word;
+                    }
+
+                    .is-hidden {
+                        display: none;
+                    }
+
+                    .show-element {
+                        display: inline-block;
+                    }
+
+                    #sectionFold {
+                      background-color: #212F3C;
+                      color: white;
+                    }
+
+                </style>
+            </head>
+            <body>
+        """
+
+        htmlLower = """
+                <script>
+                    var coll = document.getElementsByClassName("collapsible");
+                    var i;
+
+                    for (i = 0; i < coll.length; i++) {
+                      coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.display === "block") {
+                          content.style.display = "none";
+                        } else {
+                          content.style.display = "block";
+                        }
+                      });
+                    }
+                </script>
+
+                <script>
+                    function filterElements(ele) {
+                        if(event.key === 'Enter') {
+                            let search_query = document.getElementById("searchbox").value;
+                            let searchTerms = search_query.toLowerCase().split(",");
+                            searchTerms = searchTerms.map(element => { return element.trim(); });
+
+                            let cardsTitles = document.querySelectorAll('.collapsible');
+                            let cardsContents = document.querySelectorAll('.content');
+                                
+                            if (search_query.length === 0) {  
+                                for (var i = 0; i < cardsContents.length; i++) {
+                                    cardsTitles[i].classList.remove("is-hidden");
+                                    cardsContents[i].classList.remove("show-element");
+                                    cardsContents[i].classList.add("is-hidden");
+                                }
+                            } else {
+                                //Use innerText if all contents are visible
+                                //Use textContent for including hidden elements
+                                for (var i = 0; i < cardsTitles.length; i++) {
+                                    cardTitle = cardsTitles[i].textContent.toLowerCase();
+                                    cardContent = cardsContents[i].textContent.toLowerCase();
+                                    if (searchTerms.some(term => cardTitle.includes(term))) {
+                                           cardsTitles[i].classList.remove("is-hidden");
+                                    } else if (searchTerms.some(term => cardContent.includes(term))) {
+                                           cardsTitles[i].classList.remove("is-hidden");
+                                           cardsContents[i].classList.remove("is-hidden");
+                                           cardsContents[i].classList.add("show-element");
+                                    } else {
+                                        cardsTitles[i].classList.add("is-hidden");
+                                        cardsContents[i].classList.remove("show-element");
+                                        cardsContents[i].classList.add("is-hidden");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                </script>
+            </body>
+        </html>
+        """
+
+        htmlMiddle = f"""
+        <div>
+            <label for="searchbox" class="is-size-5">Search</label>
+            <input class='input' type="search" id="searchbox" placeholder="keyword" onkeydown="filterElements(this)"/>
+         </div>
+        <div>
+            <p style="color:#C39BD3">{projectDescription}</p>
+        </div>
+
+        <hr>
+        """
+        with contextlib.closing(sqlite3.connect(projectDB)) as conn:
+            with contextlib.closing(conn.cursor()) as c:
+                query = """
+                SELECT * FROM data
+                """
+                c.execute(query)
+                results = c.fetchall()
+
+        if results:
+            for res in results:
+                date, path, datatype, description, source = res
+
+                with contextlib.closing(sqlite3.connect(projectDB)) as conn:
+                    with contextlib.closing(conn.cursor()) as c:
+                        query = """
+                        SELECT tag FROM tags WHERE path=(?)
+                        """
+                        c.execute(query, (path, ))
+                        tags = c.fetchall()
+                if tags:
+                    tags = [t[0] for t in tags]
+                    tags = ", ".join(tags)
+
+                datatype = datatype.replace("<", "").replace(">", "")
+
+                entryContent = f"""
+                <b>Path</b>: {path}<br>
+                <b>Datatype</b>: <code>{datatype}</code><br>
+                <b>Tags</b>: {tags}<br>
+                <b>Source</b>: {source}<br>
+                <b>Date</b>: {date}
+                """
+
+                htmlMiddle += f"""
+                <button type="button" id="sectionFold" class="collapsible"><span style="font-size:8px; position:relative; bottom:2px;">&#128994;</span> <span style='color:#85C1E9'>{description}</span></button>
+                <div class="content">
+                  <p>{entryContent}</p>
+                </div>
+                """
+        else:
+            htmlMiddle += """
+            <div>
+                <p>No results found for project.</p>
+            </div>
+            """
+        html = htmlUpper + htmlMiddle + htmlLower
+        return html
 
 
 def _check_path_in_structure(res, path):
@@ -12,8 +206,10 @@ def _check_path_in_structure(res, path):
 
 @click.group(invoke_without_command=True)
 @click.argument("config")
+@click.argument("rendering", required=False)
+@click.argument("renderer", required=False)
 @click.pass_context
-def dnres(ctx, config):
+def dnres(ctx, config, rendering, renderer):
     """
     \b
     Prints the contents of the structure if no command is passed.
@@ -23,7 +219,24 @@ def dnres(ctx, config):
     ctx.obj = res
 
     if ctx.invoked_subcommand is None:
-        print(res)
+        if rendering and rendering == 'html':
+            if not renderer:
+                exit("You need to pass a renderer.")
+            app = Flask(__name__)
+            @app.route("/")
+            def index():
+                projectDescription = res.description
+                projectDB = res.db
+                html = htmlRenderer(projectDB, projectDescription)
+                return html
+
+            server = Process(target=app.run, kwargs={"port":8989})
+            server.start()
+            os.system(f"{renderer} http://127.0.0.1:8989")
+            server.terminate()
+            server.join()
+        else:
+            print(res)
 
 
 @dnres.command()
