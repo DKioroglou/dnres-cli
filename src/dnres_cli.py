@@ -219,6 +219,7 @@ def dnres(ctx, config, rendering, renderer):
     ctx.obj = res
 
     if ctx.invoked_subcommand is None:
+        print(ctx.invoked_subcommand)
         if rendering and rendering == 'html':
             if not renderer:
                 exit("You need to pass a renderer.")
